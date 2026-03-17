@@ -160,6 +160,31 @@ button:active {
     align-items: center;
     gap: 5px;
 }
+        .dynamic-gallery {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Picha mbili kila mstari */
+    gap: 10px;
+    padding: 10px;
+}
+.product-card {
+    background: #1e1e1e;
+    border: 1px solid #d4af37;
+    border-radius: 15px;
+    overflow: hidden;
+    text-align: center;
+}
+.product-card img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover; /* Inafanya picha isipoteze muonekano */
+}
+.product-info {
+    padding: 8px;
+    font-size: 12px;
+    color: #d4af37;
+    font-weight: bold;
+}
+
 
 </style>
 
