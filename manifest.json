@@ -1,0 +1,21 @@
+{
+  "name": "Ummu Jannah Collection",
+  "short_name": "Ummu Jannah",
+  "description": "Agiza bidhaa kwa urahisi zaidi.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#1a1a1a",
+  "theme_color": "#d4af37",
+  "icons": [
+    {
+      "src": "https://via.placeholder.com/192.png?text=UJ",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "https://via.placeholder.com/512.png?text=Ummu+Jannah",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
