@@ -224,13 +224,20 @@ button:active {
         ✨ Mizigo Mipya ✨
     </h2>
     
-    <div id="picha-gallery" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 15px;">
-        <div style="border: 1px solid #d4af37; border-radius: 10px; overflow: hidden; background: #1a1a1a;">
-            <img src="https://i.ibb.co/bfPZcC3/image.jpg" style="width: 100%; height: 150px; object-fit: cover;">
-            <p style="color: #fff; font-size: 10px; padding: 5px; margin: 0; text-align: center;">Viatu vya Bluu</p>
-        </div>
-        
-        </div>
+    <div id="picha-gallery" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 20px;">
+    
+    <div class="product-card watoto" style="border: 1px solid #d4af37; border-radius: 10px; overflow: hidden;">
+        <img src="https://i.ibb.co/RTDm14Y8/images-3.jpg" style="width: 100%; height: 140px; object-fit: cover;">
+        <p style="color: #fff; font-size: 10px; text-align: center; background: #1a1a1a; margin: 0; padding: 5px;">Nguo ya Watoto</p>
+    </div>
+
+    <div class="product-card viatu" style="border: 1px solid #d4af37; border-radius: 10px; overflow: hidden;">
+        <img src="https://i.ibb.co/bfPZcC3/image.jpg" style="width: 100%; height: 140px; object-fit: cover;">
+        <p style="color: #fff; font-size: 10px; text-align: center; background: #1a1a1a; margin: 0; padding: 5px;">Viatu vya Bluu</p>
+    </div>
+
+    </div>
+
 </div>
 
     <div class="order-container">
@@ -258,14 +265,15 @@ button:active {
 
     <div class="input-group">
         <i class="fas fa-shopping-bag"></i>
-        <select id="bidhaa" required>
-            <option value="" disabled selected>Chagua Bidhaa Unayotaka</option>
-            <option value="Nguo za watu wazima">Nguo za watu wazima</option>
-            <option value="Nguo za kitoto">Nguo za kitoto</option>
-            <option value="Viatu vya kike na kiume(watoto na watu wazima)">Viatu vya kike na kiume(watoto na watu wazima)</option>
-            <option value="Mikoba">Mikoba</option>
-            <option value="Bidhaa nyengine">Bidhaa nyengine</option>
-        </select>
+        <label style="font-size: 12px; color: #d4af37; font-weight: bold;">CHAGUA KUNDI LA BIDHAA:</label>
+<select id="bidhaa" onchange="filterPicha()" style="border: 2px solid #d4af37;">
+    <option value="zote">Onyesha Zote</option>
+    <option value="watoto">Nguo za Watoto</option>
+    <option value="wakubwa">Nguo za Watu Wazima</option>
+    <option value="viatu">Viatu (Wote)</option>
+    <option value="nyenginezo">Bidhaa Nyenginezo</option>
+    <option value="Mikoba">Mikoba</option>
+</select>
     </div>
     <div class="input-group">
     <label>Idadi (Pieces):</label>
@@ -344,6 +352,21 @@ function badilishaIdadi(thamani) {
 
 
 </script>
+    function filterPicha() {
+    let uchaguzi = document.getElementById('bidhaa').value.toLowerCase();
+    let kadi = document.querySelectorAll('.product-card');
+
+    kadi.forEach(k => {
+        // Kama umechagua 'zote' au kadi ina jina la kundi ulilochagua
+        if (uchaguzi === "zote" || k.classList.contains(uchaguzi)) {
+            k.style.display = "block";
+        } else {
+            k.style.display = "none";
+        }
+    });
+}
+
+
 
 
 </body>
