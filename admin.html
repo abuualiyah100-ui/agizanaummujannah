@@ -3,83 +3,109 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Panel - Ummu Jannah</title>
+    <title>Admin - Pakia Picha Nyingi</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        body { font-family: 'Poppins', sans-serif; background-color: #1a1a1a; color: white; padding: 20px; }
-        .admin-box { background: #262626; padding: 25px; border-radius: 20px; border: 2px solid #d4af37; max-width: 500px; margin: auto; }
-        h2 { color: #d4af37; text-align: center; }
-        label { display: block; margin-top: 15px; color: #aaa; font-size: 14px; }
-        input, select { width: 100%; padding: 12px; margin-top: 5px; border-radius: 10px; border: 1px solid #444; background: #1a1a1a; color: white; box-sizing: border-box; }
-        .result-box { background: #111; padding: 15px; border-radius: 10px; margin-top: 20px; border-left: 5px solid #25d366; }
-        .result-box p { margin: 5px 0; font-size: 16px; }
-        .total-price { color: #25d366; font-size: 22px; font-weight: bold; }
-        .btn-whatsapp { background: #25d366; color: black; padding: 15px; width: 100%; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; margin-top: 20px; }
+        body { font-family: 'Poppins', sans-serif; background-color: #121212; color: white; padding: 15px; }
+        .box { background: #1e1e1e; padding: 20px; border-radius: 20px; border-top: 5px solid #d4af37; margin-bottom: 20px; max-width: 500px; margin: auto; }
+        h2 { color: #d4af37; font-size: 18px; text-align: center; text-transform: uppercase; }
+        .upload-area { border: 2px dashed #d4af37; padding: 30px; text-align: center; border-radius: 15px; background: #1a1a1a; cursor: pointer; }
+        .btn-picha { background: #d4af37; color: black; font-weight: bold; border: none; padding: 15px; border-radius: 10px; width: 100%; cursor: pointer; margin-top: 15px; }
+        #status { margin-top: 15px; font-size: 14px; text-align: center; color: #25d366; }
+        #links-output { background: #000; padding: 10px; border-radius: 10px; margin-top: 15px; font-size: 11px; max-height: 200px; overflow-y: auto; display: none; }
+        .preview-container { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 15px; }
+        .preview-container img { width: 100%; height: 80px; object-fit: cover; border-radius: 5px; border: 1px solid #444; }
     </style>
 </head>
 <body>
 
-<div class="admin-box">
-    <h2>OFISI YA ADMIN</h2>
-    <p style="text-align:center; font-size:12px;">Piga Hesabu za Oda Hapa</p>
+<div class="box">
+    <h2><i class="fas fa-images"></i> Pakia Picha Nyingi</h2>
+    <p style="font-size: 12px; color: #888; text-align: center;">Unaweza kuchagua picha nyingi kwa pamoja</p>
 
-    <label>Jina la Mteja:</label>
-    <input type="text" id="jinaMteja" placeholder="Andika jina la mteja">
-
-    <label>Bidhaa:</label>
-    <select id="bidhaa">
-        <option value="Nguo za watu wazima">Nguo za watu wazima</option>
-        <option value="Nguo za watoto">Nguo za watoto</option>
-        <option value="Viatu">Viatu</option>
-        <option value="Mikoba">Mikoba</option>
-        <option value="Bidhaa nyengine">Bidhaa nyengine</option>
-    </select>
-
-    <label>Bei ya Bidhaa (Tsh):</label>
-    <input type="number" id="bei" placeholder="0" oninput="pigaHesabu()">
-
-    <label>Gharama ya Usafiri (Zanzibar):</label>
-    <input type="number" id="usafiri" placeholder="0" oninput="pigaHesabu()">
-
-    <div class="result-box">
-        <p>Jumla ya Malipo:</p>
-        <p class="total-price">Tsh <span id="jumla">0</span></p>
+    <div class="upload-area" onclick="document.getElementById('pichaInput').click()">
+        <i class="fas fa-cloud-upload-alt" style="font-size: 40px; color: #d4af37;"></i>
+        <p>Bonyeza hapa kuchagua picha</p>
+        <input type="file" id="pichaInput" accept="image/*" multiple onchange="onyeshaPreview()" style="display: none;">
     </div>
 
-    <button class="btn-whatsapp" onclick="tumaMteja()">TUMA MCHANGANUO WHATSAPP</button>
+    <div id="preview-grid" class="preview-container"></div>
+
+    <button class="btn-picha" id="uploadBtn" onclick="uploadNyingi()">ANZA KUPAKIA ZOTE</button>
+    
+    <div id="status"></div>
+    
+    <div id="links-output">
+        <p style="color: #d4af37; font-weight: bold;">Link za Picha Zako:</p>
+        <div id="links-list"></div>
+    </div>
 </div>
 
 <script>
-    function pigaHesabu() {
-        let bei = parseFloat(document.getElementById('bei').value) || 0;
-        let usafiri = parseFloat(document.getElementById('usafiri').value) || 0;
-        let jumla = bei + usafiri;
-        document.getElementById('jumla').innerText = jumla.toLocaleString();
+    const API_KEY = 'WEKA_API_KEY_YAKO_HAPA'; // Hakikisha umeweka API Key yako hapa
+
+    function onyeshaPreview() {
+        const grid = document.getElementById('preview-grid');
+        const files = document.getElementById('pichaInput').files;
+        grid.innerHTML = '';
+        
+        for (let file of files) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const img = document.createElement('img');
+                img.src = e.target.result;
+                grid.appendChild(img);
+            };
+            reader.readAsDataURL(file);
+        }
     }
 
-    function tumaMteja() {
-        let mteja = document.getElementById('jinaMteja').value;
-        let bidhaa = document.getElementById('bidhaa').value;
-        let bei = document.getElementById('bei').value;
-        let usafiri = document.getElementById('usafiri').value;
-        let jumla = document.getElementById('jumla').innerText;
+    async function uploadNyingi() {
+        const fileInput = document.getElementById('pichaInput');
+        const files = fileInput.files;
+        const status = document.getElementById('status');
+        const linksOutput = document.getElementById('links-output');
+        const linksList = document.getElementById('links-list');
+        const uploadBtn = document.getElementById('uploadBtn');
 
-        if(!mteja || bei == 0) {
-            alert("Tafadhali jaza jina na bei.");
-            return;
+        if (files.length === 0) return alert("Tafadhali chagua picha kwanza!");
+
+        uploadBtn.disabled = true;
+        uploadBtn.innerText = "Inapakia... Tafadhali subiri";
+        linksList.innerHTML = '';
+        linksOutput.style.display = 'none';
+
+        for (let i = 0; i < files.length; i++) {
+            status.innerText = `Inapakia picha ya ${i + 1} kati ya ${files.length}...`;
+            
+            const formData = new FormData();
+            formData.append('image', files[i]);
+
+            try {
+                const response = await fetch(`https://api.imgbb.com/1/upload?key=${API_KEY}`, {
+                    method: 'POST',
+                    body: formData
+                });
+                const result = await response.json();
+                
+                if (result.success) {
+                    const link = document.createElement('p');
+                    link.style.margin = "5px 0";
+                    link.innerHTML = `<span style="color:#888">${i+1}.</span> ${result.data.url}`;
+                    linksList.appendChild(link);
+                }
+            } catch (error) {
+                console.error("Kuna tatizo kwenye picha ya " + (i+1));
+            }
         }
 
-        let ujumbe = "Habari *" + mteja + "*, huu ndio mchanganuo wa oda yako:\n\n" +
-                     "📦 *Bidhaa:* " + bidhaa + "\n" +
-                     "💰 *Bei:* Tsh " + parseInt(bei).toLocaleString() + "\n" +
-                     "🚚 *Usafiri:* Tsh " + parseInt(usafiri).toLocaleString() + "\n" +
-                     "━━━━━━━━━━━━━━━\n" +
-                     "✅ *JUMLA KUU:* Tsh " + jumla + "\n" +
-                     "━━━━━━━━━━━━━━━\n" +
-                     "Tafadhali fanya malipo ili nikutumie bidhaa yako. Ahsante!";
-
-        window.open("https://wa.me/?text=" + encodeURIComponent(ujumbe));
+        status.innerText = "✅ Picha zote zimepakiwa kikamilifu!";
+        uploadBtn.disabled = false;
+        uploadBtn.innerText = "ANZA KUPAKIA ZOTE";
+        linksOutput.style.display = 'block';
     }
 </script>
 
 </body>
 </html>
+
