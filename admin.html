@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="sw">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Ummu Jannah</title>
+    <style>
+        body { font-family: 'Poppins', sans-serif; background-color: #1a1a1a; color: white; padding: 20px; }
+        .admin-box { background: #262626; padding: 25px; border-radius: 20px; border: 2px solid #d4af37; max-width: 500px; margin: auto; }
+        h2 { color: #d4af37; text-align: center; }
+        label { display: block; margin-top: 15px; color: #aaa; font-size: 14px; }
+        input, select { width: 100%; padding: 12px; margin-top: 5px; border-radius: 10px; border: 1px solid #444; background: #1a1a1a; color: white; box-sizing: border-box; }
+        .result-box { background: #111; padding: 15px; border-radius: 10px; margin-top: 20px; border-left: 5px solid #25d366; }
+        .result-box p { margin: 5px 0; font-size: 16px; }
+        .total-price { color: #25d366; font-size: 22px; font-weight: bold; }
+        .btn-whatsapp { background: #25d366; color: black; padding: 15px; width: 100%; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; margin-top: 20px; }
+    </style>
+</head>
+<body>
+
+<div class="admin-box">
+    <h2>OFISI YA ADMIN</h2>
+    <p style="text-align:center; font-size:12px;">Piga Hesabu za Oda Hapa</p>
+
+    <label>Jina la Mteja:</label>
+    <input type="text" id="jinaMteja" placeholder="Andika jina la mteja">
+
+    <label>Bidhaa:</label>
+    <select id="bidhaa">
+        <option value="Nguo za watu wazima">Nguo za watu wazima</option>
+        <option value="Nguo za watoto">Nguo za watoto</option>
+        <option value="Viatu">Viatu</option>
+        <option value="Mikoba">Mikoba</option>
+    </select>
+
+    <label>Bei ya Bidhaa (Tsh):</label>
+    <input type="number" id="bei" placeholder="0" oninput="pigaHesabu()">
+
+    <label>Gharama ya Usafiri (Zanzibar):</label>
+    <input type="number" id="usafiri" placeholder="0" oninput="pigaHesabu()">
+
+    <div class="result-box">
+        <p>Jumla ya Malipo:</p>
+        <p class="total-price">Tsh <span id="jumla">0</span></p>
+    </div>
+
+    <button class="btn-whatsapp" onclick="tumaMteja()">TUMA MCHANGANUO WHATSAPP</button>
+</div>
+
+<script>
+    function pigaHesabu() {
+        let bei = parseFloat(document.getElementById('bei').value) || 0;
+        let usafiri = parseFloat(document.getElementById('usafiri').value) || 0;
+        let jumla = bei + usafiri;
+        document.getElementById('jumla').innerText = jumla.toLocaleString();
+    }
+
+    function tumaMteja() {
+        let mteja = document.getElementById('jinaMteja').value;
+        let bidhaa = document.getElementById('bidhaa').value;
+        let bei = document.getElementById('bei').value;
+        let usafiri = document.getElementById('usafiri').value;
+        let jumla = document.getElementById('jumla').innerText;
+
+        if(!mteja || bei == 0) {
+            alert("Tafadhali jaza jina na bei.");
+            return;
+        }
+
+        let ujumbe = "Habari *" + mteja + "*, huu ndio mchanganuo wa oda yako:\n\n" +
+                     "📦 *Bidhaa:* " + bidhaa + "\n" +
+                     "💰 *Bei:* Tsh " + parseInt(bei).toLocaleString() + "\n" +
+                     "🚚 *Usafiri:* Tsh " + parseInt(usafiri).toLocaleString() + "\n" +
+                     "━━━━━━━━━━━━━━━\n" +
+                     "✅ *JUMLA KUU:* Tsh " + jumla + "\n" +
+                     "━━━━━━━━━━━━━━━\n" +
+                     "Tafadhali fanya malipo ili nikutumie bidhaa yako. Ahsante!";
+
+        window.open("https://wa.me/?text=" + encodeURIComponent(ujumbe));
+    }
+</script>
+
+</body>
+</html>
