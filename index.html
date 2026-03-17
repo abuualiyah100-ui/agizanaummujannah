@@ -209,6 +209,28 @@ button:active {
     height: 150px; 
     object-fit: cover; 
 }
+body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center; /* Hii inasukuma kila kitu katikati */
+    background-color: #000;
+}
+
+.main-container {
+    width: 100%;
+    max-width: 400px; /* Inahakikisha haizidi upana wa simu */
+    margin: 0 auto;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+#picha-gallery {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Picha mbili mbili */
+    gap: 10px;
+    width: 100%;
+}
 
 
 
@@ -218,6 +240,24 @@ button:active {
 
 </head>
 <body>
+    <div class="main-container">
+        
+        <div style="text-align: center; margin-bottom: 20px;">
+            <i class="fas fa-crown" style="color: #d4af37; font-size: 30px;"></i>
+            <h1 style="color:white; margin: 10px 0;">UMMU <span style="color: #d4af37;">JANNAH</span></h1>
+            <p style="color: #888; font-size: 12px; letter-spacing: 2px;">Collection & Beauty</p>
+        </div>
+
+        <h2 style="color: #d4af37; text-align: center; font-size: 16px;">✨ MIZIGO MIPYA ✨</h2>
+        <div id="picha-gallery">
+            </div>
+
+        <div class="order-container">
+            </div>
+
+    </div> </body>
+
+
     
 <div style="max-width: 400px; margin: 20px auto; padding: 10px;">
     <h2 style="color: #d4af37; text-align: center; font-size: 16px; text-transform: uppercase; letter-spacing: 2px;">
